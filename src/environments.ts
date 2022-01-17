@@ -1,4 +1,4 @@
 export const Environments = {
-    STAGING: "staging.tilia-inc.com",
-    PRODUCTION: "tilia-inc.com"
+    Staging: "staging.tilia-inc.com",
+    Production: "tilia-inc.com"
 };
