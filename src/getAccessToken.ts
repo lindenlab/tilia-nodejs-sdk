@@ -2,6 +2,10 @@ import axios from 'axios';
 import { Configuration } from './configuration';
 import { URL, URLSearchParams } from 'url';
 
+/**
+ * Retrieves an access token based on the client ID/Secret
+ * @param {Configuration} config A valid Configuration object that includes client id/secret and env info
+ */
 export const getAccessToken = async (
     config: Configuration
 ): Promise<{

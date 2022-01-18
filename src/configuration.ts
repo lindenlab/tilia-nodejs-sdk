@@ -1,4 +1,10 @@
 export class Configuration {
+    /**
+     * Defines client credentials and environment info.
+     * @param {String} clientId
+     * @param {String} clientSecret
+     * @param {String} envBase Like staging.tilia-inc.com or tilia-inc.com.  This will be pre-fixed with api is needed, and post-fixed with path, etc
+     */
     clientId: string;
     clientSecret: string;
     envBase: string;
