@@ -17,7 +17,10 @@ describe('getAccessToken', () => {
             expires_in: 3600,
             scope: 'write_registrations,write_user_tokens',
         };
-        mockedAxios.post.mockResolvedValueOnce({ status: 200, data: expectedPayload });
+        mockedAxios.post.mockResolvedValueOnce({
+            status: 200,
+            data: expectedPayload,
+        });
         const data = await getAccessToken(config);
         expect(true).toEqual(true);
     });
@@ -27,7 +30,9 @@ describe('getAccessToken', () => {
             // @ts-ignore
             const data = await getAccessToken();
         } catch (err) {
-            expect(err.message).toBe('getAccessToken requires a valid Configuration object.');
+            expect(err.message).toBe(
+                'getAccessToken requires a valid Configuration object.'
+            );
         }
     });
 

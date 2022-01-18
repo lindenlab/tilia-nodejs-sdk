@@ -7,7 +7,7 @@ import { getAccessToken } from '.';
  * in other api calls.
  * @param {Configuration} config A valid Configuration object that includes client id/secret and env info
  * @param {String} accountId A valid account ID for a known user already registered to Tilia
-*/
+ */
 export const authorizeUser = async (
     config: Configuration,
     accountId: string
@@ -20,7 +20,9 @@ export const authorizeUser = async (
     };
 }> => {
     if (!accountId) {
-        return Promise.reject(new Error('authorizeUser requires accountId argument.'));
+        return Promise.reject(
+            new Error('authorizeUser requires accountId argument.')
+        );
     }
     try {
         const ccTokenData = await getAccessToken(config); // get integrator client access token

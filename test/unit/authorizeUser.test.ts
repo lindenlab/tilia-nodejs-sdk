@@ -16,10 +16,13 @@ describe('authorizeUser', () => {
             message: [],
             codes: [],
             payload: {
-                password_token: 'SOME_LONG_STRING_VALUE'
+                password_token: 'SOME_LONG_STRING_VALUE',
             },
         };
-        mockedAxios.post.mockResolvedValue({ status: 200, data: expectedPayload });
+        mockedAxios.post.mockResolvedValue({
+            status: 200,
+            data: expectedPayload,
+        });
         const data = await authorizeUser(
             config,
             `${process.env.TEST_USER_ACCOUNT_ID}`
@@ -36,9 +39,14 @@ describe('authorizeUser', () => {
     it('should fail on missing config', async () => {
         try {
             // @ts-ignore
-            const data = await authorizeUser(null, `${process.env.TEST_USER_ACCOUNT_ID}`);
+            const data = await authorizeUser(
+                null,
+                `${process.env.TEST_USER_ACCOUNT_ID}`
+            );
         } catch (err) {
-            expect(err.message).toBe('getAccessToken requires a valid Configuration object.');
+            expect(err.message).toBe(
+                'getAccessToken requires a valid Configuration object.'
+            );
         }
     });
 
@@ -47,7 +55,9 @@ describe('authorizeUser', () => {
             // @ts-ignore
             const data = await authorizeUser(config);
         } catch (err) {
-            expect(err.message).toBe('authorizeUser requires accountId argument.');
+            expect(err.message).toBe(
+                'authorizeUser requires accountId argument.'
+            );
         }
     });
 
