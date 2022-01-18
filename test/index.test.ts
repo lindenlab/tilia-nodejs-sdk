@@ -2,12 +2,12 @@
  * @jest-environment node
  */
 import 'dotenv/config';
-import { Configuration, getAccessToken, authorizeUser } from '../';
+import { Configuration, Environment, getAccessToken, authorizeUser } from '../';
 
 const config = new Configuration({
     clientId: `${process.env.CLIENT_ID}`,
     clientSecret: `${process.env.CLIENT_SECRET}`,
-    envBase: 'staging.tilia-inc.com',
+    envBase: Environment.Staging,
 });
 
 describe('getAccessToken', () => {
@@ -28,7 +28,7 @@ describe('getAccessToken', () => {
             const data = await getAccessToken({
                 clientId: '55555555-5555-5555-5555-555555555555',
                 clientSecret: '55555555-5555-5555-5555-555555555555',
-                envBase: 'staging.tilia-inc.com',
+                envBase: Environment.Staging,
             });
         } catch (err) {
             const { response } = err;
