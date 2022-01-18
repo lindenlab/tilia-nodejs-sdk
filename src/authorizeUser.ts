@@ -13,6 +13,9 @@ export const authorizeUser = async (
         password_token: string;
     };
 }> => {
+    if (!accountId) {
+        return Promise.reject(new Error('authorizeUser requires accountId argument.'));
+    }
     try {
         const ccTokenData = await getAccessToken(config); // get integrator client access token
         const { access_token } = ccTokenData;

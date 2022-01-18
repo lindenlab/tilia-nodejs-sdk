@@ -10,6 +10,17 @@ export const getAccessToken = async (
     scope: string;
     token_type: string;
 }> => {
+    // validation check
+    if (
+        !config ||
+        !config.clientId ||
+        !config.clientSecret ||
+        !config.envBase
+    ) {
+        return Promise.reject(
+            new Error('getAccessToken requires a valid Configuration object.')
+        );
+    }
     try {
         const GRANT_TYPE = 'client_credentials';
         const SCOPES = ['write_registrations', 'write_user_tokens'];
