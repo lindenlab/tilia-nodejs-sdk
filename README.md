@@ -6,6 +6,8 @@
 npm install tilia-nodejs-sdk # this will not work until we are live on npm
 ```
 
+## Example using Express
+
 ```typescript
 import express, { Request, Response } from "express";
 import { Configuration, Environment, authorizeUser } from 'tilia-nodejs-sdk';
@@ -20,7 +22,7 @@ const config = new Configuration({
     envBase: Environment.Staging,
 });
 
-app.get("/authorizeUser", async (req: Request, res: Response) => {
+app.get("/authorize-user", async (req: Request, res: Response) => {
     try {
         const data = await authorizeUser(
             config,
