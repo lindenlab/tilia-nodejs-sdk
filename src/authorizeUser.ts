@@ -1,15 +1,22 @@
 import axios from 'axios';
 import { Configuration } from './configuration';
-import { getAccessToken } from '.';
+import { getAccessToken } from './getAccessToken';
 
 export interface AuthorizeUserResponse {
     status: string;
     message: Array<string>;
     codes: Array<string>;
     payload: {
-        password_token: string;
+        token: {
+            access_token: string;
+            token_type: string;
+            refresh_token: string;
+            expiry: string;
+        }
     };
 }
+
+export const AUTHORIZE_USER_SCOPES = ['write_user_tokens'];
 
 /**
  * Retrieves a password token for a validated user that can be used
@@ -27,7 +34,7 @@ export const authorizeUser = async (
         );
     }
     try {
-        const ccTokenData = await getAccessToken(config); // get integrator client access token
+        const ccTokenData = await getAccessToken(config, AUTHORIZE_USER_SCOPES); // get integrator client access token
         const { access_token } = ccTokenData;
         const SCOPES = [
             'user_info',
@@ -39,7 +46,7 @@ export const authorizeUser = async (
         const { envBase } = config;
         const params = {
             account_id: accountId,
-            return_password_token: true,
+            return_token: true,
             scope: SCOPES.join(','),
         };
         let url = `https://auth.${envBase}/authorize/user`;

@@ -12,9 +12,11 @@ export interface GetAccessTokenResponse {
 /**
  * Retrieves an access token based on the client ID/Secret
  * @param {Configuration} config A valid Configuration object that includes client id/secret and env info
+ * @param {Array.<String>} scopes List of access scopes to use in request.
  */
 export const getAccessToken = async (
-    config: Configuration
+    config: Configuration,
+    scopes: Array<string>
 ): Promise<GetAccessTokenResponse> => {
     // validation check
     if (
@@ -27,15 +29,19 @@ export const getAccessToken = async (
             new Error('getAccessToken requires a valid Configuration object.')
         );
     }
+    if (!scopes || scopes.length === 0) {
+        return Promise.reject(
+            new Error('getAccessToken requires an array of scopes to use in request.')
+        );
+    }
     try {
         const GRANT_TYPE = 'client_credentials';
-        const SCOPES = ['write_registrations', 'write_user_tokens'];
         const { envBase, clientId, clientSecret } = config;
         const params = {
             client_id: clientId,
             client_secret: clientSecret,
             grant_type: GRANT_TYPE,
-            scope: SCOPES.join(','),
+            scope: scopes.join(','),
         };
         let url = new URL(`https://auth.${envBase}/token`);
         url.search = new URLSearchParams(params).toString();
