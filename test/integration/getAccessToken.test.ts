@@ -7,7 +7,10 @@ import { config, invalidClientConfig } from '../testClientConfig';
 describe('getAccessToken', () => {
     it('should test successful response', async () => {
         expect.assertions(5);
-        const data = await getAccessToken(config);
+        const data = await getAccessToken(config, [
+            'write_registrations',
+            'write_user_tokens',
+        ]);
         const { access_token, expires_in, scope, token_type } = data;
         expect(typeof access_token).toBe('string');
         expect(access_token.length).toBeGreaterThan(0);
@@ -19,7 +22,10 @@ describe('getAccessToken', () => {
     it('should fail on unknown credentials', async () => {
         expect.assertions(1);
         try {
-            const data = await getAccessToken(invalidClientConfig);
+            const data = await getAccessToken(invalidClientConfig, [
+                'write_registrations',
+                'write_user_tokens',
+            ]);
         } catch (err) {
             const { response } = err;
             expect(response.status).toEqual(400);

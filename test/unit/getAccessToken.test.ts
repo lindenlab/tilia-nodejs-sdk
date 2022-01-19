@@ -21,14 +21,20 @@ describe('getAccessToken', () => {
             status: 200,
             data: expectedPayload,
         });
-        const data = await getAccessToken(config);
+        const data = await getAccessToken(config, [
+            'write_registrations',
+            'write_user_tokens',
+        ]);
         expect(true).toEqual(true);
     });
 
-    it('should test missing config argument', async () => {
+    it('should fail when missing config argument', async () => {
         try {
             // @ts-ignore
-            const data = await getAccessToken();
+            const data = await getAccessToken(null, [
+                'write_registrations',
+                'write_user_tokens',
+            ]);
         } catch (err) {
             expect(err.message).toBe(
                 'getAccessToken requires a valid Configuration object.'
@@ -36,10 +42,24 @@ describe('getAccessToken', () => {
         }
     });
 
+    it('should fail when missing scopes argument', async () => {
+        try {
+            // @ts-ignore
+            const data = await getAccessToken(config);
+        } catch (err) {
+            expect(err.message).toBe(
+                'getAccessToken requires an array of scopes to use in request.'
+            );
+        }
+    });
+
     it('should fail on unknown credentials', async () => {
         try {
             mockedAxios.post.mockRejectedValue({ response: { status: 400 } });
-            const data = await getAccessToken(invalidClientConfig);
+            const data = await getAccessToken(invalidClientConfig, [
+                'write_registrations',
+                'write_user_tokens',
+            ]);
         } catch (err) {
             const { response } = err;
             expect(response.status).toEqual(400);
