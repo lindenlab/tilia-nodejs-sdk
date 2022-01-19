@@ -2,18 +2,20 @@ import axios from 'axios';
 import { Configuration } from './configuration';
 import { URL, URLSearchParams } from 'url';
 
+export interface GetAccessTokenResponse {
+    access_token: string;
+    expires_in: number;
+    scope: string;
+    token_type: string;
+}
+
 /**
  * Retrieves an access token based on the client ID/Secret
  * @param {Configuration} config A valid Configuration object that includes client id/secret and env info
  */
 export const getAccessToken = async (
     config: Configuration
-): Promise<{
-    access_token: string;
-    expires_in: number;
-    scope: string;
-    token_type: string;
-}> => {
+): Promise<GetAccessTokenResponse> => {
     // validation check
     if (
         !config ||

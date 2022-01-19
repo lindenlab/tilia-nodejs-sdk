@@ -2,23 +2,25 @@ import axios from 'axios';
 import { Configuration } from './configuration';
 import { getAccessToken } from '.';
 
-/**
- * Retrieves a password token for a validated user that can be used
- * in other api calls.
- * @param {Configuration} config A valid Configuration object that includes client id/secret and env info
- * @param {String} accountId A valid account ID for a known user already registered to Tilia
- */
-export const authorizeUser = async (
-    config: Configuration,
-    accountId: string
-): Promise<{
+export interface AuthorizeUserResponse {
     status: string;
     message: Array<string>;
     codes: Array<string>;
     payload: {
         password_token: string;
     };
-}> => {
+}
+
+/**
+ * Retrieves a password token for a validated user that can be used
+ * to perform actions on that user in other api calls.
+ * @param {Configuration} config A valid Configuration object that includes client id/secret and env info
+ * @param {String} accountId A valid account ID for a known user already registered to Tilia
+ */
+export const authorizeUser = async (
+    config: Configuration,
+    accountId: string
+): Promise<AuthorizeUserResponse> => {
     if (!accountId) {
         return Promise.reject(
             new Error('authorizeUser requires accountId argument.')
