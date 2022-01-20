@@ -9,6 +9,17 @@ export interface GetAccessTokenResponse {
     token_type: string;
 }
 
+const isValidConfig = (config: Configuration) => {
+    return (
+        !!config &&
+        config.clientId &&
+        config.clientId !== 'undefined' && // a missing environment variable could get passed in as undefined
+        config.clientSecret &&
+        config.clientSecret !== 'undefined' && // a missing environment variable could get passed in as undefined
+        config.envBase
+    );
+};
+
 /**
  * Retrieves an access token based on the client ID/Secret
  * @param {Configuration} config A valid Configuration object that includes client id/secret and env info
@@ -19,19 +30,16 @@ export const getAccessToken = async (
     scopes: Array<string>
 ): Promise<GetAccessTokenResponse> => {
     // validation check
-    if (
-        !config ||
-        !config.clientId ||
-        !config.clientSecret ||
-        !config.envBase
-    ) {
+    if (!isValidConfig(config)) {
         return Promise.reject(
             new Error('getAccessToken requires a valid Configuration object.')
         );
     }
     if (!scopes || scopes.length === 0) {
         return Promise.reject(
-            new Error('getAccessToken requires an array of scopes to use in request.')
+            new Error(
+                'getAccessToken requires an array of scopes to use in request.'
+            )
         );
     }
     try {
@@ -45,7 +53,11 @@ export const getAccessToken = async (
         };
         let url = new URL(`https://auth.${envBase}/token`);
         url.search = new URLSearchParams(params).toString();
-        const response = await axios.post(url.toString());
+        const response = await axios.post(url.toString(), {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
         const { data } = response;
         if (response.status === 200 && data) {
             return data;
