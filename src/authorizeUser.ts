@@ -12,7 +12,7 @@ export interface AuthorizeUserResponse {
             token_type: string;
             refresh_token: string;
             expiry: string;
-        }
+        };
     };
 }
 
@@ -49,7 +49,7 @@ export const authorizeUser = async (
             return_token: true,
             scope: SCOPES.join(','),
         };
-        let url = `https://auth.${envBase}/authorize/user`;
+        const url = `https://auth.${envBase}/authorize/user`;
         const response = await axios.post(url, params, {
             headers: {
                 Authorization: `Bearer ${access_token}`,

@@ -9,6 +9,14 @@ export interface GetAccessTokenResponse {
     token_type: string;
 }
 
+/**
+ * While typescript would catch most of the issues that
+ * would be found in the validation check, it's possible a
+ * user will use this package without typescript.
+ * Adding a check for 'undefined' as well as I ran across
+ * an issue with a missing process.env.CLIENT_ID could resolve
+ * in getting a string with 'undefined' as the value.
+ */
 const isValidConfig = (config: Configuration) => {
     return (
         !!config &&
@@ -51,7 +59,7 @@ export const getAccessToken = async (
             grant_type: GRANT_TYPE,
             scope: scopes.join(','),
         };
-        let url = new URL(`https://auth.${envBase}/token`);
+        const url = new URL(`https://auth.${envBase}/token`);
         url.search = new URLSearchParams(params).toString();
         const response = await axios.post(url.toString(), {
             headers: {
