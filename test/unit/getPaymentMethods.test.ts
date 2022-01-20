@@ -111,21 +111,25 @@ describe('getPaymentMethods', () => {
         }
     });
 
-    it('should fail on unknown account id', async () => {
-        expect.assertions(1);
-        try {
-            mockedAxios.post.mockResolvedValue({
-                status: 200,
-                data: { access_token: 'SOME_LONG_TOKEN_STRING' },
-            });
-            mockedAxios.get.mockRejectedValue({ response: { status: 404 } });
-            const data = await getPaymentMethods(
-                config,
-                '55555555-5555-5555-5555-555555555555'
-            );
-        } catch (err) {
-            const { response } = err;
-            expect(response.status).toEqual(404);
-        }
+    it('should look like it succeeds on unknown account id, but contain empty list', async () => {
+        const expectedPayload = {
+            status: 'Success',
+            message: [],
+            codes: [],
+            payload: [],
+        };
+        mockedAxios.post.mockResolvedValue({
+            status: 200,
+            data: { access_token: 'SOME_LONG_TOKEN_STRING' },
+        });
+        mockedAxios.get.mockResolvedValue({
+            status: 200,
+            data: expectedPayload,
+        });
+        const data = await getPaymentMethods(
+            config,
+            '55555555-5555-5555-5555-555555555555'
+        );
+        expect(data).toEqual(expectedPayload);
     });
 });

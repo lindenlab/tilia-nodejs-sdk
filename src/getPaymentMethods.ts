@@ -67,8 +67,7 @@ export interface GetPaymentMethodsResponse {
 export const GET_PAYMENT_METHODS_SCOPES = ['read_payment_methods'];
 
 /**
- * Retrieves a password token for a validated user that can be used
- * in other api calls.
+ * Retrieves payment methods for the supplied accountId.
  * @param {Configuration} config A valid Configuration object that includes client id/secret and env info
  * @param {String} accountId A valid account ID for a known user already registered to Tilia
  *
