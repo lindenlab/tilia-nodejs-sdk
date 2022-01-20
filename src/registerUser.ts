@@ -89,8 +89,7 @@ const validateUserInfo = (userInfo: UserInfoInput): Array<string> => {
 };
 
 /**
- * Retrieves a password token for a validated user that can be used
- * in other api calls.
+ * Registers a new user to your account.
  * @param {Configuration} config A valid Configuration object that includes client id/secret and env info
  * @param {UserInfoInput} userInfo User info that must include a username and one of email | steam | oculus identifier
  *

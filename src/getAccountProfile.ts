@@ -13,8 +13,7 @@ export interface GetAccountProfileResponse {
 export const GET_ACCOUNT_PROFILE_SCOPES = ['search_accounts'];
 
 /**
- * Retrieves a password token for a validated user that can be used
- * in other api calls.
+ * Retrieves account profile for the user with the supplied accountId.
  * @param {Configuration} config A valid Configuration object that includes client id/secret and env info
  * @param {String} accountId A valid account ID for a known user already registered to Tilia
  *

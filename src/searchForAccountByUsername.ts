@@ -13,10 +13,9 @@ export interface SearchForAccountByUsernameResponse {
 export const SEARCH_FOR_ACCOUNT_BY_USERNAME_SCOPES = ['search_accounts'];
 
 /**
- * Retrieves a password token for a validated user that can be used
- * in other api calls.
+ * Searches for a user with the matching username and returns their account profile.
  * @param {Configuration} config A valid Configuration object that includes client id/secret and env info
- * @param {String} accountId A valid account ID for a known user already registered to Tilia
+ * @param {String} username A valid username for a known user already registered to Tilia
  *
  * @returns Promise with either success payload or error
  */
