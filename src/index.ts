@@ -5,4 +5,5 @@ export * from './authorizeUser';
 export * from './getAccountProfile';
 export * from './searchForAccountByUsername';
 export * from './getPaymentMethods';
+export * from './createInvoice';
 export * from './environments';
