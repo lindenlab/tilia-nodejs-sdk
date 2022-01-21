@@ -1,46 +1,46 @@
 import axios from 'axios';
 import { Configuration } from './configuration';
 import { getAccessToken } from './getAccessToken';
-import { Invoice, InvoiceResponse } from './types';
+import { InvoiceResponse } from './types';
 
-export interface CreateInvoiceResponse {
-    status: 'Success' | 'Failure';
+export interface GetInvoiceResponse {
+    status: string;
     message: Array<string>;
     codes: Array<string>;
     payload: InvoiceResponse;
 }
 
-export const CREATE_INVOICE_SCOPES = ['write_invoices'];
+export const GET_INVOICE_SCOPES = ['read_invoices'];
 
 /**
- * Creates a draft invoice. Once created, the invoice can be paid using the /pay endpoint.
+ * Retrieves details for the invoice specified by the invoiceId parameter.
  * @param {Configuration} config A valid Configuration object that includes client id/secret and env info
- * @param {Invoice} invoice A valid invoice definition.
+ * @param {String} invoiceId ID for existing invoice.
  *
  * @returns Promise with either success payload or error
  */
-export const createInvoice = async (
+export const getInvoice = async (
     config: Configuration,
-    invoice: Invoice
-): Promise<CreateInvoiceResponse> => {
-    if (!invoice) {
+    invoiceId: string
+): Promise<GetInvoiceResponse> => {
+    if (!invoiceId) {
         return Promise.reject(
-            new Error('createInvoice requires invoice argument.')
+            new Error('getInvoice requires invoiceId argument.')
         );
     }
     try {
-        const ccTokenData = await getAccessToken(config, CREATE_INVOICE_SCOPES); // get integrator client access token
+        const ccTokenData = await getAccessToken(config, GET_INVOICE_SCOPES); // get integrator client access token
         const { access_token } = ccTokenData;
         const { envBase } = config;
-        const url = `https://invoicing.${envBase}/v2/invoice`;
-        const response = await axios.post(url, invoice, {
+        const url = `https://invoicing.${envBase}/v2/invoice/${invoiceId}`;
+        const response = await axios.get(url, {
             headers: {
                 Authorization: `Bearer ${access_token}`,
                 'Content-Type': 'application/json',
             },
         });
         const { data } = response;
-        if (response.status === 201 && data) {
+        if (response.status === 200 && data) {
             return data;
         } else {
             return Promise.reject(new Error('An unknown error occurred.')); // since Axios throws on non-2xx status codes and we expect 'data' on 2xx, this shouldn't be needed.  But, just to be safe...
