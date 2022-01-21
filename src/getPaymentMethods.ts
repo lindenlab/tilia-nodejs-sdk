@@ -89,7 +89,7 @@ export const getPaymentMethods = async (
         ); // get integrator client access token
         const { access_token } = ccTokenData;
         const { envBase } = config;
-        let url = `https://payments.${envBase}/${accountId}/payment_methods`;
+        const url = `https://payments.${envBase}/${accountId}/payment_methods`;
         const response = await axios.get(url, {
             headers: {
                 Authorization: `Bearer ${access_token}`,

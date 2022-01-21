@@ -35,7 +35,7 @@ export const getAccountProfile = async (
         ); // get integrator client access token
         const { access_token } = ccTokenData;
         const { envBase } = config;
-        let url = `https://accounts.${envBase}/v1/user-info/${accountId}`;
+        const url = `https://accounts.${envBase}/v1/user-info/${accountId}`;
         const response = await axios.get(url, {
             headers: {
                 Authorization: `Bearer ${access_token}`,

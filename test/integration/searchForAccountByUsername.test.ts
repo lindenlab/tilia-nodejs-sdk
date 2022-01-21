@@ -1,6 +1,7 @@
 /**
  * @jest-environment node
  */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { searchForAccountByUsername } from '../../dist';
 import { config } from '../testClientConfig';
 

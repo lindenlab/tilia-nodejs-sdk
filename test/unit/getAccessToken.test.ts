@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios';
 import { getAccessToken } from '../../dist';
 import { config, invalidClientConfig } from '../testClientConfig';

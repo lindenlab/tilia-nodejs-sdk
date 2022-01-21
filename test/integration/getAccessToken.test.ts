@@ -1,6 +1,7 @@
 /**
  * @jest-environment node
  */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { getAccessToken } from '../../dist';
 import { config, invalidClientConfig } from '../testClientConfig';
 
