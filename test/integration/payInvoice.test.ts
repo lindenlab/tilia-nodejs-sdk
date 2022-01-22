@@ -2,12 +2,12 @@
  * @jest-environment node
  */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { getInvoice, createInvoice } from '../../dist';
+import { payInvoice, createInvoice } from '../../dist';
 import { config } from '../testClientConfig';
 
-describe('getInvoice', () => {
+describe('payInvoice', () => {
     it('should succeed with valid inputs', async () => {
-        expect.assertions(3);
+        expect.assertions(4);
         const invoice = {
             account_id: `${process.env.TEST_BUYER_WITH_PAYMENT_METHODS_ACCOUNT_ID}`,
             invoice_type: 'user_purchase',
@@ -31,27 +31,31 @@ describe('getInvoice', () => {
         };
         const createInvoiceResponse = await createInvoice(config, invoice);
         const { payload: createInvoicePayload } = createInvoiceResponse;
-        const data = await getInvoice(config, createInvoicePayload.invoice_id);
+        const data = await payInvoice(config, createInvoicePayload.invoice_id);
         const { payload, status } = data;
-        const { invoice_id, account_id } = payload;
+        const { invoice_id, account_id, state } = payload;
         expect(status).toEqual('Success');
         expect(invoice_id).toBe(createInvoicePayload.invoice_id);
         expect(account_id).toBe(createInvoicePayload.account_id);
+        expect(state).toBe('SUCCESS');
     });
 
     it('should fail on unknown invoice id', async () => {
         expect.assertions(2);
         try {
-            const data = await getInvoice(
+            const data = await payInvoice(
                 config,
                 '55555555-5555-5555-5555-555555555555'
             );
         } catch (err) {
             const { response } = err;
-            expect(response.data.codes).toEqual(
-                expect.arrayContaining(['INVOICE_NOT_FOUND'])
-            );
-            expect(response.status).toEqual(404);
+            expect(response.status).toBe(500);
+            expect(response.data).toEqual({
+                status: 'Failure',
+                message: ['encountered an unexpected error'],
+                codes: ['SERVER_ERROR'],
+                payload: null,
+            });
         }
     });
 });

@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios';
-import { getInvoice } from '../../dist';
+import { payInvoice } from '../../dist';
 import { config } from '../testClientConfig';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-describe('getInvoice', () => {
+describe('payInvoice', () => {
     afterEach(() => {
         mockedAxios.post.mockReset();
         mockedAxios.get.mockReset();
@@ -23,7 +23,7 @@ describe('getInvoice', () => {
                 invoice_type: 'user_purchase',
                 reference_type: '',
                 reference_id: '',
-                state: 'OPEN',
+                state: 'SUCCESS',
                 description: '',
                 metadata: null,
                 summary: {
@@ -81,19 +81,19 @@ describe('getInvoice', () => {
                 subitems: {},
             },
         };
-        mockedAxios.post.mockImplementation(() => {
-            return Promise.resolve({
-                status: 200,
-                data: { access_token: 'SOME_LONG_TOKEN_STRING' },
-            });
-        });
-        mockedAxios.get.mockImplementation(() => {
+        mockedAxios.post.mockImplementation(url => {
+            if (url.includes('/token')) {
+                return Promise.resolve({
+                    status: 200,
+                    data: { access_token: 'SOME_LONG_TOKEN_STRING' },
+                });
+            }
             return Promise.resolve({
                 status: 200,
                 data: expectedPayload,
             });
         });
-        const data = await getInvoice(config, 'VALID_INVOICE_ID');
+        const data = await payInvoice(config, 'VALID_INVOICE_ID');
         expect(data).toEqual(expectedPayload);
     });
 
@@ -101,9 +101,9 @@ describe('getInvoice', () => {
         expect.assertions(2);
         const expectedPayload = {
             status: 'Failure',
-            message: [''],
-            codes: ['INVOICE_NOT_FOUND'],
-            payload: 'invoice_id not found',
+            message: ['encountered an unexpected error'],
+            codes: ['SERVER_ERROR'],
+            payload: null,
         };
         try {
             mockedAxios.post.mockImplementation(() => {
@@ -115,18 +115,18 @@ describe('getInvoice', () => {
             mockedAxios.post.mockImplementation(() => {
                 return Promise.reject({
                     response: {
-                        status: 404,
+                        status: 500,
                         data: expectedPayload,
                     },
                 });
             });
-            const data = await getInvoice(
+            const data = await payInvoice(
                 config,
                 '55555555-5555-5555-5555-555555555555'
             );
         } catch (err) {
             const { response } = err;
-            expect(response.status).toEqual(404);
+            expect(response.status).toEqual(500);
             expect(response.data).toEqual(expectedPayload);
         }
     });

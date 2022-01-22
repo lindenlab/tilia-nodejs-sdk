@@ -7,5 +7,6 @@ export * from './searchForAccountByUsername';
 export * from './getPaymentMethods';
 export * from './createInvoice';
 export * from './getInvoice';
+export * from './payInvoice';
 export * from './environments';
 export * from './types';
