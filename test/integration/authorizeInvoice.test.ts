@@ -124,6 +124,7 @@ describe('authorizeInvoice', () => {
         try {
             const data = await authorizeInvoice(config, invoice);
         } catch (err) {
+            // @ts-ignore
             const { response } = err;
             expect(response.status).toEqual(404);
             expect(response.data).toEqual({
@@ -131,7 +132,8 @@ describe('authorizeInvoice', () => {
                 message: ['input is invalid'],
                 codes: ['INPUT_ERROR'],
                 payload: {
-                    "error": "failed to set destination subitem resource. wallet (55555555-5555-5555-5555-555555555556) not found. a resource is missing",
+                    error:
+                        'failed to set destination subitem resource. wallet (55555555-5555-5555-5555-555555555556) not found. a resource is missing',
                 },
             });
         }
