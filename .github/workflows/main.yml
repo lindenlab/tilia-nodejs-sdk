@@ -21,6 +21,10 @@ jobs:
 
       - name: Install deps and build (with cache)
         uses: bahmutov/npm-install@v1
+        with:
+          working-directory: |
+            sdk
+            example-server
 
       - name: Lint
         run: cd sdk/ && npm run lint
