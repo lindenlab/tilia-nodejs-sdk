@@ -31,6 +31,10 @@ jobs:
           touch sdk/.env
           echo CLIENT_ID=${{ secrets.CLIENT_ID }} >> sdk/.env
           echo CLIENT_SECRET=${{ secrets.CLIENT_SECRET }} >> sdk/.env
+          echo TEST_BUYER_USD_WALLET_ID=${{ secrets.TEST_BUYER_USD_WALLET_ID }} >> sdk/.env
+          echo TEST_BUYER_WITH_PAYMENT_METHODS_ACCOUNT_ID=${{ secrets.TEST_BUYER_WITH_PAYMENT_METHODS_ACCOUNT_ID }} >> sdk/.env
+          echo TEST_USER_ACCOUNT_ID=${{ secrets.TEST_USER_ACCOUNT_ID }} >> sdk/.env
+          echo TEST_USER_ACCOUNT_USERNAME=${{ secrets.TEST_USER_ACCOUNT_USERNAME }} >> sdk/.env
           cat sdk/.env
 
       - name: Lint
