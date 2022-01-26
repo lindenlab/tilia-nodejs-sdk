@@ -2,31 +2,32 @@
  * @jest-environment node
  */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { authorizeUser } from '../../dist';
+import { searchForAccountByUsername } from '../../dist';
 import { config } from '../testClientConfig';
 
-describe('authorizeUser', () => {
+describe('searchForAccountByUsername', () => {
     it('should test successful response', async () => {
-        expect.assertions(5);
-        const data = await authorizeUser(
+        expect.assertions(6);
+        const data = await searchForAccountByUsername(
             config,
-            `${process.env.TEST_USER_ACCOUNT_ID}`
+            `${process.env.TEST_USER_ACCOUNT_USERNAME}`
         );
         const { payload, status, message, codes } = data;
-        const { token } = payload;
+        const { account_id, username, integrator } = payload;
         expect(status).toEqual('Success');
         expect(message.length).toBe(0);
         expect(codes.length).toBe(0);
-        expect(typeof token.access_token).toBe('string');
-        expect(token.access_token.length).toBeGreaterThan(0);
+        expect(username).toBe(`${process.env.TEST_USER_ACCOUNT_USERNAME}`);
+        expect(account_id).toBeTruthy();
+        expect(integrator).toBe('qa');
     });
 
-    it('should fail on unknown user id', async () => {
+    it('should fail on unknown account id', async () => {
         expect.assertions(1);
         try {
-            const data = await authorizeUser(
+            const data = await searchForAccountByUsername(
                 config,
-                '55555555-5555-5555-5555-555555555555'
+                'fakeusername@howyadoing.com'
             );
         } catch (err) {
             const { response } = err;

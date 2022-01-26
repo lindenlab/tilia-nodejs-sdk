@@ -1,50 +1,49 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios';
-import { authorizeUser } from '../../dist';
+import { getAccountProfile } from '../../dist';
 import { config } from '../testClientConfig';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-describe('authorizeUser', () => {
+describe('getAccountProfile', () => {
     afterEach(() => {
         mockedAxios.post.mockReset();
+        mockedAxios.get.mockReset();
     });
 
-    it('should test successful response', async () => {
+    it('should succeed with valid inputs', async () => {
         const expectedPayload = {
             status: 'Success',
             message: [],
             codes: [],
             payload: {
-                token: {
-                    access_token: 'SOME_LONG_STRING',
-                    token_type: 'Bearer',
-                    refresh_token: 'SOME_LONG_STRING',
-                    expiry: '0001-01-01T00:00:00Z',
-                },
+                account_id: `${process.env.TEST_USER_ACCOUNT_ID}`,
+                username: 'SOME_USERNAME',
+                email: 'SOME_EMAIL',
+                is_blocked: false,
+                integrator: 'qa',
+                created: 'SOME_DATE_STRING',
             },
         };
         mockedAxios.post.mockResolvedValue({
             status: 200,
+            data: { access_token: 'SOME_LONG_TOKEN_STRING' },
+        });
+        mockedAxios.get.mockResolvedValue({
+            status: 200,
             data: expectedPayload,
         });
-        const data = await authorizeUser(
+        const data = await getAccountProfile(
             config,
             `${process.env.TEST_USER_ACCOUNT_ID}`
         );
-        const { payload, status, message, codes } = data;
-        const { token } = payload;
-        expect(status).toEqual('Success');
-        expect(message.length).toBe(0);
-        expect(codes.length).toBe(0);
-        expect(typeof token.access_token).toBe('string');
-        expect(token.access_token.length).toBeGreaterThan(0);
+        expect(data).toEqual(expectedPayload);
     });
 
     it('should fail on missing config', async () => {
         try {
-            const data = await authorizeUser(
+            const data = await getAccountProfile(
                 // @ts-ignore
                 null,
                 `${process.env.TEST_USER_ACCOUNT_ID}`
@@ -59,10 +58,10 @@ describe('authorizeUser', () => {
     it('should fail on missing accountId', async () => {
         try {
             // @ts-ignore
-            const data = await authorizeUser(config);
+            const data = await getAccountProfile(config);
         } catch (err) {
             expect(err.message).toBe(
-                'authorizeUser requires accountId argument.'
+                'getAccountProfile requires accountId argument.'
             );
         }
     });
@@ -70,8 +69,12 @@ describe('authorizeUser', () => {
     it('should fail on unknown user id', async () => {
         expect.assertions(1);
         try {
-            mockedAxios.post.mockRejectedValue({ response: { status: 404 } });
-            const data = await authorizeUser(
+            mockedAxios.post.mockResolvedValue({
+                status: 200,
+                data: { access_token: 'SOME_LONG_TOKEN_STRING' },
+            });
+            mockedAxios.get.mockRejectedValue({ response: { status: 404 } });
+            const data = await getAccountProfile(
                 config,
                 '55555555-5555-5555-5555-555555555555'
             );
