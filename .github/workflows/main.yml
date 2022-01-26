@@ -26,6 +26,13 @@ jobs:
             sdk
             example-server
 
+      - name: create env file
+        run: |
+          touch sdk/.env
+          echo CLIENT_ID=${{ secrets.CLIENT_ID }} >> sdk/.env
+          echo CLIENT_SECRET=${{ secrets.CLIENT_SECRET }} >> sdk/.env
+          cat sdk/.env
+
       - name: Lint
         run: cd sdk/ && npm run lint
 
