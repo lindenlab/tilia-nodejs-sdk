@@ -63,7 +63,7 @@ export const getAccessToken = async (
             headers: {
                 'Content-Type': 'application/json',
             },
-            params
+            params,
         });
         const { data } = response;
         if (response.status === 200 && data) {
