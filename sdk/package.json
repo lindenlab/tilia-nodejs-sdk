@@ -17,7 +17,7 @@
     "test:unit": "tsdx test test/unit/",
     "test:integration": "tsdx test test/integration/",
     "lint": "tsdx lint",
-    "prepare": "husky install && tsdx build",
+    "prepare": "cd ../ && husky install ./sdk/.husky && cd sdk/ && tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why",
     "commit": "cz"
