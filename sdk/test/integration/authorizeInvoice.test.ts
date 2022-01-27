@@ -108,7 +108,7 @@ describe('authorizeInvoice', () => {
                             amount: 2351,
                             currency: 'USD',
                             destination_wallet_id:
-                                '55555555-5555-5555-5555-555555555557',
+                                '55555555-5555-5555-5555-555555555556',
                         },
                     ],
                 },
