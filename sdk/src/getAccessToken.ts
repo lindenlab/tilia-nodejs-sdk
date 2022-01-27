@@ -59,12 +59,15 @@ export const getAccessToken = async (
             scope: scopes.join(','),
         };
         const url = `https://auth.${envBase}/token`;
-        const response = await axios.post(url, {
-            headers: {
-                'Content-Type': 'application/json',
+        const response = await axios.post(
+            url,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             },
-            params,
-        });
+            { params }
+        );
         const { data } = response;
         if (response.status === 200 && data) {
             return data;
