@@ -39,7 +39,7 @@ export const authorizeUser = async (
         const { envBase } = config;
         const params = {
             account_id: accountId,
-            return_token: true
+            return_token: true,
         };
         const url = `https://auth.${envBase}/authorize/user`;
         const response = await axios.post(url, params, {
