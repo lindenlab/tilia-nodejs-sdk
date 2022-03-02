@@ -7,7 +7,9 @@ import {
   registerUser,
   UserInfoInput,
   authorizeUser,
-  getPaymentMethods
+  getPaymentMethods,
+  authorizeInvoice,
+  AuthorizeInvoice
 } from "tilia-nodejs-sdk";
 
 const config = new Configuration({
@@ -98,7 +100,11 @@ routes.post("/get-user-token", async (req: Request, res: Response) => {
 
 /*
 Example:
-
+  curl --location --request POST 'http://0.0.0.0:7000/get-account-profile' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+      "account_id": "USER_TILIA_ACCOUNT_ID"
+  }'
 */
 routes.post("/get-payment-methods", async (req: Request, res: Response) => {
   try {
@@ -106,6 +112,51 @@ routes.post("/get-payment-methods", async (req: Request, res: Response) => {
       throw new Error("Missing account_id in request");
     }
     const data = await getPaymentMethods(config, req.body.account_id as string);
+    res.status(200).send(data);
+  } catch (e) {
+    const errMsg = (e as Error).message || "Unknown error";
+    const statusCode =
+      // @ts-ignore
+      e && e.response && e.response.status ? e.response.status : 500;
+    res.status(statusCode).send({ status: "error", message: errMsg });
+  }
+});
+
+/*
+Example:
+  curl --location --request POST 'http://0.0.0.0:7000/authorize-invoice' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+      "account_id": "PAYER_TILIA_ACCOUNT_ID",
+      "is_escrow": false,
+      "invoice_mechanism": "widget",
+      "reference_type": "MY_REFERENCE_TYPE_STRING",
+      "reference_id": "MY_REFERENCE_ID_STRING",
+      "line_items": [
+          {
+            "description": "ITEM_DESCRIPTION",
+            "product_sku": "ITEM_SKU",
+            "transaction_type": "user_to_user",
+            "currency": "CURRENCY_CODE",
+            "amount": 1,
+            "recipients": [
+              {
+                "amount": 1,
+                "currency": "CURRENCY_CODE",
+                "destination_wallet_id": "PAYEE_WALLET_ID"
+              }
+            ]
+          }
+      ]
+  }'
+*/
+routes.post("/authorize-invoice", async (req: Request, res: Response) => {
+  try {
+    const { account_id, invoice_mechanism, line_items } = req.body;
+    if (!account_id || !invoice_mechanism || !line_items) { // more validation should be done on the payload, this is just a minimal check
+      throw new Error("Missing authorized invoice payload");
+    }
+    const data = await authorizeInvoice(config, req.body as AuthorizeInvoice);
     res.status(200).send(data);
   } catch (e) {
     const errMsg = (e as Error).message || "Unknown error";

@@ -20,7 +20,7 @@ export interface AuthorizeInvoiceLineItem {
 export interface AuthorizeInvoice {
     account_id: string;
     is_escrow: boolean;
-    invoice_mechanism: string; // 'direct' | 'widget' | 'email' | 'sms' | 'qrcode'
+    invoice_mechanism: string; // 'direct' | 'widget' | 'api'
     line_items: Array<AuthorizeInvoiceLineItem>;
     reference_type?: string;
     reference_id?: string;

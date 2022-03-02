@@ -50,3 +50,43 @@ curl --location --request POST 'http://0.0.0.0:7000/get-user-token' \
     "account_id": "USER_TILIA_ACCOUNT_ID"
 }'
 ```
+
+## /get-payment-methods
+_Retrieves payment methods for the supplied account ID._
+```bash
+curl --location --request POST 'http://0.0.0.0:7000/get-account-profile' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "account_id": "USER_TILIA_ACCOUNT_ID"
+}'
+```
+
+## /authorize-invoice
+_Creates an authorized invoice using the included payload that can be used in a transaction page flow._
+```bash
+  curl --location --request POST 'http://0.0.0.0:7000/authorize-invoice' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+      "account_id": "PAYER_TILIA_ACCOUNT_ID",
+      "is_escrow": false,
+      "invoice_mechanism": "widget",
+      "reference_type": "MY_REFERENCE_TYPE_STRING",
+      "reference_id": "MY_REFERENCE_ID_STRING",
+      "line_items": [
+          {
+            "description": "ITEM_DESCRIPTION",
+            "product_sku": "ITEM_SKU",
+            "transaction_type": "user_to_user",
+            "currency": "CURRENCY_CODE",
+            "amount": 1,
+            "recipients": [
+              {
+                "amount": 1,
+                "currency": "CURRENCY_CODE",
+                "destination_wallet_id": "PAYEE_WALLET_ID"
+              }
+            ]
+          }
+      ]
+  }'
+```
