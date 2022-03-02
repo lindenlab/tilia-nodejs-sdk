@@ -17,10 +17,10 @@
     "test:unit": "tsdx test test/unit/",
     "test:integration": "tsdx test test/integration/",
     "lint": "tsdx lint",
-    "prepare": "cd ../ && husky install ./sdk/.husky && cd sdk/ && tsdx build",
+    "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why",
-    "commit": "cz"
+    "commitizen": "./node_modules/.bin/cz"
   },
   "husky": {
     "hooks": {
@@ -48,9 +48,8 @@
     }
   ],
   "devDependencies": {
-    "@commitlint/cli": "^16.0.2",
-    "@commitlint/config-conventional": "^16.0.0",
-    "@commitlint/prompt": "^16.0.0",
+    "@commitlint/cli": "^16.2.1",
+    "@commitlint/config-conventional": "^16.2.1",
     "@size-limit/preset-small-lib": "^7.0.5",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
