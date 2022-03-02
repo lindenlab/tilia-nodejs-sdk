@@ -1,23 +1,30 @@
 #!/bin/bash
+echo $PWD 
+WORKING_DIR=$PWD
+BUILD_FOLDER_PATH=example-server/dist/express-example
 
-echo "Start example server build"
+echo "---> Build SDK"
 cd sdk && npm ci && npm run build
 
-cd ../
+cd $WORKING_DIR
 
-echo "Copy example server"
-rm -rf server
-rsync -r --progress example-server/ server --exclude node_modules
-sed -i '' 's/file:..\/sdk/file:.\/tilia-nodejs-sdk/g' server/package.json
+echo "---> Copy relevant example server files to dist"
+rm -rf $BUILD_FOLDER_PATH
+mkdir -p $BUILD_FOLDER_PATH
+rsync -r --progress example-server/ $BUILD_FOLDER_PATH --exclude node_modules  --exclude .env --exclude dist
+echo "---> Overrite tilia-nodejs-sdk file path in package.json"
+sed -i '' 's/file:..\/sdk/file:.\/tilia-nodejs-sdk/g' $BUILD_FOLDER_PATH/package.json
 
-cd server && npm ci
+echo "---> Build copy of example server"
+cd $BUILD_FOLDER_PATH && npm ci
+cd $WORKING_DIR
 
-cd ../
+echo "---> Add sdk package folder"
+mkdir -p $BUILD_FOLDER_PATH/tilia-nodejs-sdk
+echo "---> Copy sdk into build folder"
+cp -R sdk/dist $BUILD_FOLDER_PATH/tilia-nodejs-sdk/dist
 
-mkdir -p server/tilia-nodejs-sdk
-pwd
-cp -R sdk/dist server/tilia-nodejs-sdk/dist
-
+echo "---> Overrite package.json"
 echo "{
     \"version\": \"0.1.0\",
     \"license\": \"MIT\",
@@ -32,6 +39,6 @@ echo "{
     \"dependencies\": {
         \"axios\": \"^0.24.0\"
     }
-}" > server/tilia-nodejs-sdk/package.json
-
-cd server && npm run build
+}" > $BUILD_FOLDER_PATH/tilia-nodejs-sdk/package.json
+echo "---> Create build"
+cd $BUILD_FOLDER_PATH && npm run build

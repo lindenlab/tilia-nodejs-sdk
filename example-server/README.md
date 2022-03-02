@@ -1,26 +1,43 @@
 # Example Node Express Server
 
+<br />
+
+---
+---
 ---
 ## Disclaimer!
-__!!!THIS EXAMPLE SERVER IS NOT MEANT TO BE DEPLOYED TO PRODUCTION.  THIS IS FOR REFERENCE ONLY!!!__
+__!!! THIS EXAMPLE SERVER IS NOT MEANT TO BE DEPLOYED TO PRODUCTION.  THIS IS FOR REFERENCE ONLY !!!__
 
 __This is a simplified example to show the endpoints you will likely want to connect to.__
 
-__It does not contain security protocols you will need to have in place before deploying for real.__
+__It does not contain security protocols you will need to have in place before deploying.__
 
+__!!! PLEASE MAKE SURE TO FOLLOW SECURITY BEST PRACTICES FOR SAFEGUARDING YOUR SERVER, AND ONLY ALLOW KNOWN AUTHENTICATED USERS TO ACCESS YOUR API !!!__
+
+---
+---
 ---
 
 
 <br />
 <br />
+
 ## Build & Run Docker Container
-Run these commands from `example-server/`:
+Run these commands from the root with the Dockerfile:
 ```bash
 $ docker build . -t example-server
 $ docker run --env CLIENT_ID=<YOUR_CLIENT_ID> --env CLIENT_SECRET=<YOUR_CLIENT_SECRET> -d -p 7000:7000 example-server
 ```
 
 Server available at: `http://0.0.0.0:7000/`
+
+
+## Dev Mode
+If you want to run in dev mode you will need a `.env` file with values for these variables:
+```
+CLIENT_ID=<CLIENT_ID>
+CLIENT_SECRET=<CLIENT_SECRET>
+```
 
 ## /register-user
 _Registers a new user to your Tilia account._

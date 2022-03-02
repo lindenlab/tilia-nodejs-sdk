@@ -31,7 +31,7 @@ export interface AuthorizeInvoiceResponse {
     message: Array<string>;
     codes: Array<string>;
     payload: {
-        line_items_payload_id: string;
+        authorized_invoice_id: string;
         redirect: string;
     };
 }

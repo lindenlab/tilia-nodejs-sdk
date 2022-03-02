@@ -62,9 +62,9 @@ describe('authorizeInvoice', () => {
             message: [],
             codes: [],
             payload: {
-                line_items_payload_id: 'd2cf9330-1dc5-4e3b-8c23-7fac10f4e0e7',
+                authorized_invoice_id: 'd2cf9330-1dc5-4e3b-8c23-7fac10f4e0e7',
                 redirect:
-                    'https://web.staging.tilia-inc.com/ui/appauth/3b7a031e-af4a-46f3-ac3a-eaa816e95572?line_items_payload_id=d2cf9330-1dc5-4e3b-8c23-7fac10f4e0e7&escrow=false&integrator=qa',
+                    'https://web.staging.tilia-inc.com/ui/appauth/3b7a031e-af4a-46f3-ac3a-eaa816e95572?authorized_invoice_id=d2cf9330-1dc5-4e3b-8c23-7fac10f4e0e7&escrow=false&integrator=qa',
             },
         };
         mockedAxios.post.mockImplementation(url => {
