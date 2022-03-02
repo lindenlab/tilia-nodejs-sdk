@@ -1,5 +1,18 @@
 # Example Node Express Server
 
+---
+## Disclaimer!
+__!!!THIS EXAMPLE SERVER IS NOT MEANT TO BE DEPLOYED TO PRODUCTION.  THIS IS FOR REFERENCE ONLY!!!__
+
+__This is a simplified example to show the endpoints you will likely want to connect to.__
+
+__It does not contain security protocols you will need to have in place before deploying for real.__
+
+---
+
+
+<br />
+<br />
 ## Build & Run Docker Container
 Run these commands from `example-server/`:
 ```bash

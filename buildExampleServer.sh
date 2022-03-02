@@ -3,15 +3,20 @@
 echo "Start example server build"
 cd sdk && npm ci && npm run build
 
-cd ../example-server && npm ci
+cd ../
+
+echo "Copy example server"
+rm -rf server
+rsync -r --progress example-server/ server --exclude node_modules
+sed -i '' 's/file:..\/sdk/file:.\/tilia-nodejs-sdk/g' server/package.json
+
+cd server && npm ci
 
 cd ../
 
-rm -rf example-server/tilia-nodejs-sdk/
-
-mkdir -p example-server/tilia-nodejs-sdk
-
-cp -R sdk/dist example-server/tilia-nodejs-sdk/dist
+mkdir -p server/tilia-nodejs-sdk
+pwd
+cp -R sdk/dist server/tilia-nodejs-sdk/dist
 
 echo "{
     \"version\": \"0.1.0\",
@@ -27,6 +32,6 @@ echo "{
     \"dependencies\": {
         \"axios\": \"^0.24.0\"
     }
-}" > example-server/tilia-nodejs-sdk/package.json
+}" > server/tilia-nodejs-sdk/package.json
 
-cd example-server && npm run build
+cd server && npm run build
