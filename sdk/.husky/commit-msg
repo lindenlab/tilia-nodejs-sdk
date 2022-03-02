@@ -2,4 +2,5 @@
 . "$(dirname "$0")/_/husky.sh"
 
 echo '$ commit-msg'
-cd sdk && ./node_modules/.bin/commitlint --edit ""
+# cd sdk && ./node_modules/.bin/commitlint --edit ""
+cd sdk && npx --no -- commitlint --edit ""
