@@ -1,5 +1,5 @@
+require('dotenv').config({ path: '../sdk/.env' });
 import express, { Request, Response } from "express";
-import { type } from "os";
 import {
   Configuration,
   Environment,

@@ -22,7 +22,7 @@ jobs:
       - name: Install deps and build (with cache)
         uses: bahmutov/npm-install@v1
         with:
-          useLockFile: false
+          useLockFile: false # for some reason, Actions build fails when it tries to use: npm ERR! @commitlint/cli not accessible from tilia-nodejs-sdk 
           working-directory: |
             sdk
             example-server

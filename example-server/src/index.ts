@@ -1,4 +1,3 @@
-require('dotenv').config({ path: '../sdk/.env' });
 import express from "express";
 import helmet from "helmet";
 import { routes } from './routes';
