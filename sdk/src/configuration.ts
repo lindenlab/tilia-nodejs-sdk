@@ -14,8 +14,10 @@ export class Configuration {
         clientSecret: string;
         envBase: string;
     }) {
-        if (typeof global !== 'object') {
-            throw(new Error('This package should only be run on a server, it is not meant for the browser.'))
+        if (typeof global !== 'object' || typeof window !== 'undefined') {
+            throw new Error(
+                'This package should only be run on a server, it is not meant for the browser.'
+            );
         }
         this.clientId = data.clientId;
         this.clientSecret = data.clientSecret;
