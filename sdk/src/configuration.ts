@@ -14,7 +14,7 @@ export class Configuration {
         clientSecret: string;
         envBase: string;
     }) {
-        if (typeof global !== 'object' || typeof window !== 'undefined') {
+        if (typeof global !== 'object') {
             throw new Error(
                 'This package should only be run on a server, it is not meant for the browser.'
             );
