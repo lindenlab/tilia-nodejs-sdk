@@ -36,6 +36,9 @@ export const getAccessToken = async (
     config: Configuration,
     scopes: Array<string>
 ): Promise<GetAccessTokenResponse> => {
+    if (typeof global !== 'object') {
+        throw(new Error('This package should only be run on a server, it is not meant for the browser.'))
+    }
     // validation check
     if (!isValidConfig(config)) {
         return Promise.reject(
