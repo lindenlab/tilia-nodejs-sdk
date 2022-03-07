@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '../sdk/.env' });
+require("dotenv").config({ path: "../sdk/.env" });
 import express, { Request, Response } from "express";
 import {
   Configuration,
@@ -9,7 +9,7 @@ import {
   authorizeUser,
   getPaymentMethods,
   authorizeInvoice,
-  AuthorizeInvoice
+  AuthorizeInvoice,
 } from "tilia-nodejs-sdk";
 
 const config = new Configuration({
