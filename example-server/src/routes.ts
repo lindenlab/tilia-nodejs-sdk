@@ -41,11 +41,9 @@ routes.post("/register-user", async (req: Request, res: Response) => {
     const payload = req.body as UserInfoInput;
     const data = await registerUser(config, payload);
     res.status(200).send(data);
-  } catch (e) {
-    const errMsg = (e as Error).message || "Unknown error";
-    const statusCode =
-      // @ts-ignore
-      e && e.response && e.response.status ? e.response.status : 500;
+  } catch (e: any) {
+    const errMsg = e?.message || "Unknown error";
+    const statusCode = e?.response?.status || 500;
     res.status(statusCode).send({ status: "error", message: errMsg });
   }
 });
@@ -60,16 +58,11 @@ Example:
 */
 routes.post("/get-account-profile", async (req: Request, res: Response) => {
   try {
-    if (!req.body.account_id) {
-      throw new Error("Missing account_id in request");
-    }
     const data = await getAccountProfile(config, req.body.account_id as string);
     res.status(200).send(data);
-  } catch (e) {
-    const errMsg = (e as Error).message || "Unknown error";
-    const statusCode =
-      // @ts-ignore
-      e && e.response && e.response.status ? e.response.status : 500;
+  } catch (e: any) {
+    const errMsg = e?.message || "Unknown error";
+    const statusCode = e?.response?.status || 500;
     res.status(statusCode).send({ status: "error", message: errMsg });
   }
 });
@@ -84,16 +77,11 @@ Example:
 */
 routes.post("/get-user-token", async (req: Request, res: Response) => {
   try {
-    if (!req.body.account_id) {
-      throw new Error("Missing account_id in request");
-    }
     const data = await authorizeUser(config, req.body.account_id as string);
     res.status(200).send(data);
-  } catch (e) {
-    const errMsg = (e as Error).message || "Unknown error";
-    const statusCode =
-      // @ts-ignore
-      e && e.response && e.response.status ? e.response.status : 500;
+  } catch (e: any) {
+    const errMsg = e?.message || "Unknown error";
+    const statusCode = e?.response?.status || 500;
     res.status(statusCode).send({ status: "error", message: errMsg });
   }
 });
@@ -108,16 +96,11 @@ Example:
 */
 routes.post("/get-payment-methods", async (req: Request, res: Response) => {
   try {
-    if (!req.body.account_id) {
-      throw new Error("Missing account_id in request");
-    }
     const data = await getPaymentMethods(config, req.body.account_id as string);
     res.status(200).send(data);
-  } catch (e) {
-    const errMsg = (e as Error).message || "Unknown error";
-    const statusCode =
-      // @ts-ignore
-      e && e.response && e.response.status ? e.response.status : 500;
+  } catch (e: any) {
+    const errMsg = e?.message || "Unknown error";
+    const statusCode = e?.response?.status || 500;
     res.status(statusCode).send({ status: "error", message: errMsg });
   }
 });
@@ -152,17 +135,11 @@ Example:
 */
 routes.post("/authorize-invoice", async (req: Request, res: Response) => {
   try {
-    const { account_id, invoice_mechanism, line_items } = req.body;
-    if (!account_id || !invoice_mechanism || !line_items) { // more validation should be done on the payload, this is just a minimal check
-      throw new Error("Missing authorized invoice payload");
-    }
     const data = await authorizeInvoice(config, req.body as AuthorizeInvoice);
     res.status(200).send(data);
-  } catch (e) {
-    const errMsg = (e as Error).message || "Unknown error";
-    const statusCode =
-      // @ts-ignore
-      e && e.response && e.response.status ? e.response.status : 500;
+  } catch (e: any) {
+    const errMsg = e?.message || "Unknown error";
+    const statusCode = e?.response?.status || 500;
     res.status(statusCode).send({ status: "error", message: errMsg });
   }
 });

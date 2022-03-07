@@ -10,13 +10,14 @@ Please make sure all security precautions are used when storing and interacting 
 
 <br />
 
-## Dev mode for both SDK and example-server
+## Dev mode for both SDK and example-server *(requires .env file in /sdk)*
 ```
 $ cd sdk/ && npm start
 ```
 ```
 $ cd example-server/ && npm run dev
 ```
+Example server can be interacted with at: `http://0.0.0.0:7000`
 
 <br />
 
