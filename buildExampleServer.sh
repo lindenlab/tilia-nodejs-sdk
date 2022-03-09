@@ -15,10 +15,6 @@ rsync -r --progress example-server/ $BUILD_FOLDER_PATH --exclude node_modules  -
 echo "---> Overrite tilia-nodejs-sdk file path in package.json"
 sed -i '' 's/file:..\/sdk/file:.\/tilia-nodejs-sdk/g' $BUILD_FOLDER_PATH/package.json
 
-echo "---> Build copy of example server"
-cd $BUILD_FOLDER_PATH && npm ci
-cd $WORKING_DIR
-
 echo "---> Add sdk package folder"
 mkdir -p $BUILD_FOLDER_PATH/tilia-nodejs-sdk
 echo "---> Copy sdk into build folder"
@@ -40,5 +36,3 @@ echo "{
         \"axios\": \"^0.24.0\"
     }
 }" > $BUILD_FOLDER_PATH/tilia-nodejs-sdk/package.json
-echo "---> Create build"
-cd $BUILD_FOLDER_PATH && npm run build

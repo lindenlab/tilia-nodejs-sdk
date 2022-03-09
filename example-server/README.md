@@ -86,7 +86,7 @@ curl --location --request POST 'http://0.0.0.0:7000/get-user-token' \
 ## /get-payment-methods
 _Retrieves payment methods for the supplied account ID._
 ```bash
-curl --location --request POST 'http://0.0.0.0:7000/get-account-profile' \
+curl --location --request POST 'http://0.0.0.0:7000/get-payment-methods' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "account_id": "USER_TILIA_ACCOUNT_ID"
