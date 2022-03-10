@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { Configuration } from './configuration';
-import { URL, URLSearchParams } from 'url';
 
 export interface GetAccessTokenResponse {
     access_token: string;
@@ -37,6 +36,11 @@ export const getAccessToken = async (
     config: Configuration,
     scopes: Array<string>
 ): Promise<GetAccessTokenResponse> => {
+    if (typeof global !== 'object') {
+        throw new Error(
+            'This package should only be run on a server, it is not meant for the browser.'
+        );
+    }
     // validation check
     if (!isValidConfig(config)) {
         return Promise.reject(
@@ -59,13 +63,16 @@ export const getAccessToken = async (
             grant_type: GRANT_TYPE,
             scope: scopes.join(','),
         };
-        const url = new URL(`https://auth.${envBase}/token`);
-        url.search = new URLSearchParams(params).toString();
-        const response = await axios.post(url.toString(), {
-            headers: {
-                'Content-Type': 'application/json',
+        const url = `https://auth.${envBase}/token`;
+        const response = await axios.post(
+            url,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             },
-        });
+            { params }
+        );
         const { data } = response;
         if (response.status === 200 && data) {
             return data;

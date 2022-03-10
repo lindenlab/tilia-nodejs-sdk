@@ -36,18 +36,10 @@ export const authorizeUser = async (
     try {
         const ccTokenData = await getAccessToken(config, AUTHORIZE_USER_SCOPES); // get integrator client access token
         const { access_token } = ccTokenData;
-        const SCOPES = [
-            'user_info',
-            'read_payment_method',
-            'write_payment_method',
-            'read_kyc',
-            'verify_kyc',
-        ];
         const { envBase } = config;
         const params = {
             account_id: accountId,
             return_token: true,
-            scope: SCOPES.join(','),
         };
         const url = `https://auth.${envBase}/authorize/user`;
         const response = await axios.post(url, params, {

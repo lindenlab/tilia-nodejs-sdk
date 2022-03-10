@@ -62,10 +62,10 @@ describe('authorizeInvoice', () => {
             };
             const data = await authorizeInvoice(config, invoice);
             const { payload, status } = data;
-            const { line_items_payload_id, redirect } = payload;
+            const { authorized_invoice_id, redirect } = payload;
             expect(status).toEqual('Success');
-            expect(typeof line_items_payload_id).toBe('string');
-            expect(line_items_payload_id.length).toBeGreaterThan(0);
+            expect(typeof authorized_invoice_id).toBe('string');
+            expect(authorized_invoice_id.length).toBeGreaterThan(0);
             expect(typeof redirect).toBe('string');
             expect(redirect.length).toBeGreaterThan(0);
         } catch (err) {
@@ -108,7 +108,7 @@ describe('authorizeInvoice', () => {
                             amount: 2351,
                             currency: 'USD',
                             destination_wallet_id:
-                                '55555555-5555-5555-5555-555555555557',
+                                '55555555-5555-5555-5555-555555555556',
                         },
                     ],
                 },

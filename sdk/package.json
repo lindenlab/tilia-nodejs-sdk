@@ -12,15 +12,15 @@
   },
   "scripts": {
     "start": "tsdx watch",
-    "build": "tsdx build",
+    "build": "tsdx build --target node",
     "test": "tsdx test",
     "test:unit": "tsdx test test/unit/",
     "test:integration": "tsdx test test/integration/",
     "lint": "tsdx lint",
-    "prepare": "husky install && tsdx build",
+    "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why",
-    "commit": "cz"
+    "commitizen": "./node_modules/.bin/cz"
   },
   "husky": {
     "hooks": {
@@ -40,17 +40,16 @@
   "size-limit": [
     {
       "path": "dist/tilia-nodejs-sdk.cjs.production.min.js",
-      "limit": "10 KB"
+      "limit": "20 KB"
     },
     {
       "path": "dist/tilia-nodejs-sdk.esm.js",
-      "limit": "10 KB"
+      "limit": "20 KB"
     }
   ],
   "devDependencies": {
-    "@commitlint/cli": "^16.0.2",
-    "@commitlint/config-conventional": "^16.0.0",
-    "@commitlint/prompt": "^16.0.0",
+    "@commitlint/cli": "^16.2.1",
+    "@commitlint/config-conventional": "^16.2.1",
     "@size-limit/preset-small-lib": "^7.0.5",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
@@ -66,7 +65,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+      "path": "./sdk/node_modules/cz-conventional-changelog"
     }
   }
 }
