@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.2",
+    "express": "^4.17.3",
     "helmet": "^5.0.1",
     "tilia-nodejs-sdk": "file:../sdk"
   },
